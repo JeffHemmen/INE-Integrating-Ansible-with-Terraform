@@ -13,7 +13,7 @@ data "template_file" "user-data-mgt-host" {
 }
 
 resource "aws_instance" "wiki-mgt-01" {
-  ami           = "ami-9887c6e7"
+  ami           = "ami-0ac019f4fcb7cb7e6"
   instance_type = "t3.micro"
 
   key_name = "${aws_key_pair.bootstrap.key_name}"
@@ -39,7 +39,7 @@ resource "aws_instance" "wiki-mgt-01" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo useradd ansible",
+      "sudo useradd ansible -s /bin/bash",
       "sudo mkdir -p ~ansible/.ssh",
       "echo \"${tls_private_key.ansible.private_key_pem}\" | sudo tee ~ansible/.ssh/id_rsa > /dev/null",
       "sudo chmod 400 ~ansible/.ssh/id_rsa",
@@ -48,7 +48,7 @@ resource "aws_instance" "wiki-mgt-01" {
     ]
     connection {
       type        = "ssh"
-      user        = "centos"
+      user        = "ubuntu"
       private_key = "${file("~/.ssh/id_rsa")}"
     }
   }
@@ -64,8 +64,8 @@ data "template_file" "user-data-ansible-target" {
 }
 
 resource "aws_instance" "wiki-web-01" {
-  ami           = "ami-9887c6e7"
-  instance_type = "t2.micro"
+  ami           = "ami-0ac019f4fcb7cb7e6"
+  instance_type = "t3.micro"
 
   key_name = "${aws_key_pair.bootstrap.key_name}"
 

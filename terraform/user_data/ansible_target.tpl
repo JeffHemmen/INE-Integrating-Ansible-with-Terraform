@@ -1,9 +1,9 @@
 #!/bin/bash
 
-yum update  -y
-yum install -y python
+apt-get update
+apt-get dist-upgrade -y
 
-useradd ansible
+useradd ansible -s /bin/bash
 usermod -G wheel ansible
 mkdir -p ~ansible/.ssh
 echo "${ansible_public_key}" > ~ansible/.ssh/authorized_keys
