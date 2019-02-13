@@ -1,0 +1,72 @@
+---
+
+- name       : Deploy Wiki database
+  hosts      : localhost
+  connection : local
+
+  tasks:
+
+    - set_fact:
+        wiki_db_admin_password : "{{ lookup('aws_ssm', 'wiki-db-password', region='us-east-1' ) }}"
+        wiki_db_app_password   : "{{ lookup('password', '~/.wiki_db_app_password') }}"
+        wiki_db_hosts          : "{{ groups['wiki-db'] | map('extract', hostvars, 'ansible_host') | list }}"
+
+    - name: Create wiki db
+      mysql_db:
+        login_host     : "{{ item }}"
+        login_user     : "{{ wiki_db_admin_user }}"
+        login_password : "{{ wiki_db_admin_password }}"
+        name           : "{{ wiki_db_name }}"
+      with_items: "{{ wiki_db_hosts }}"
+
+    - name: Create wiki db user
+      mysql_user:
+        login_host     : "{{ item }}"
+        login_user     : "{{ wiki_db_admin_user }}"
+        login_password : "{{ wiki_db_admin_password }}"
+        name           : "{{ wiki_db_app_user }}"
+        password       : "{{ wiki_db_app_password }}"
+        host           : "10.0.10.0/255.255.255.0"
+        priv           : "{{ wiki_db_name }}.*:ALL"
+      with_items: "{{ wiki_db_hosts }}"
+
+- name  : Deploy webserver
+  hosts : wiki-web
+
+  tasks:
+
+    - set_fact:
+        wiki_db_app_password   : "{{ lookup('password', '~/.wiki_db_app_password') }}"
+        wiki_db_hosts          : "{{ groups['wiki-db'] | map('extract', hostvars, 'ansible_host') | list }}"
+
+    - name: Install OS packages
+      apt:
+        name  : "{{ item }}"
+        state : latest
+      with_items:
+        - apache2
+        - mysql-server
+        - php
+        - php-mysql
+        - libapache2-mod-php
+        - php-xml
+        - php-mbstring
+
+    - name: Ensure /opt directory exists
+      file:
+        path  : /opt
+        state : directory
+
+    - name: Download and extract the MediaWiki tarball
+      unarchive:
+        src        : "{{ mediawiki_tarball_url }}"
+        remote_src : yes
+        dest       : /opt
+        owner      : www-data
+        group      : www-data
+
+    - name: Create link from /var/www/html/
+      file:
+        path  : /var/www/html/
+        state : link
+        src   : "/opt/ {{ mediawiki_dir }}/mediawiki-{{ mediawiki_long_version }}"
