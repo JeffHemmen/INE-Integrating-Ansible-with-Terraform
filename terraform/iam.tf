@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "wiki-mgt-query-ssm-for-db-pass-policy-data" {
   version = "2012-10-17"
   statement {
     effect    = "Allow"
-    actions   = ["ssm:GetParameter"]
+    actions   = ["ssm:GetParameters"]
     resources = ["${aws_ssm_parameter.wiki-db-password.arn}"]
   }
 }
