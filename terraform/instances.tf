@@ -43,7 +43,7 @@ resource "aws_instance" "wiki-mgt-01" {
       "sudo mkdir -p ~ansible/.ssh",
       "echo \"${tls_private_key.ansible.private_key_pem}\" | sudo tee ~ansible/.ssh/id_rsa > /dev/null",
       "sudo chmod 400 ~ansible/.ssh/id_rsa",
-      "sudo chown -R ansible: ~ansible/.ssh",
+      "sudo chown -R ansible: ~ansible",
       "echo Done."
     ]
     connection {

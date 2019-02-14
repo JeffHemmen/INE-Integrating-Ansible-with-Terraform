@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt-get update
+
 ### Install Ansible with Python 2.7
 # sudo apt-get install software-properties-common
 # sudo apt-add-repository --yes --update ppa:ansible/ansible
