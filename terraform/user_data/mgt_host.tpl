@@ -1,10 +1,5 @@
 #!/bin/bash
 
-DEBIAN_FRONTEND=noninteractive
-export DEBIAN_FRONTEND
-sudo apt-get update
-sudo apt-get upgrade -y
-
 ### Install Ansible with Python 2.7
 # sudo apt-get install software-properties-common
 # sudo apt-add-repository --yes --update ppa:ansible/ansible

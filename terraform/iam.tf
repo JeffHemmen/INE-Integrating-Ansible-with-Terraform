@@ -72,7 +72,12 @@ data "aws_iam_policy_document" "wiki-mgt-list-rds-instances-for-dynamic-inventor
   version = "2012-10-17"
   statement {
     effect    = "Allow"
-    actions   = ["ec2:DescribeInstances", "ec2:DescribeTags"]
+    actions   = ["rds:DescribeDBInstances"]
     resources = ["*"]
+  }
+  statement {
+    effect    = "Allow"
+    actions   = ["rds:ListTagsForResource"]
+    resources = ["arn:aws:rds:*:*:db:*"]
   }
 }

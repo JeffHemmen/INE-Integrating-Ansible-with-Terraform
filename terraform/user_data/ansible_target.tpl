@@ -1,8 +1,5 @@
 #!/bin/bash
 
-apt-get update
-apt-get dist-upgrade -y
-
 useradd ansible -s /bin/bash
 usermod -G wheel ansible
 mkdir -p ~ansible/.ssh
