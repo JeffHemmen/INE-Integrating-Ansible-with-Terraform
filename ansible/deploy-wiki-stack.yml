@@ -6,11 +6,6 @@
 
   tasks:
 
-    - set_fact:
-        wiki_db_admin_password : "{{ lookup('aws_ssm', 'wiki-db-password', region='us-east-1' ) }}"
-        wiki_db_app_password   : "{{ lookup('password', '~/.wiki_db_app_password') }}"
-        wiki_db_hosts          : "{{ groups['wiki-db'] | map('extract', hostvars, 'ansible_host') | list }}"
-
     - name: Create wiki db
       mysql_db:
         login_host     : "{{ item }}"
