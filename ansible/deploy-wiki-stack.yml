@@ -58,9 +58,17 @@
         path  : /var/www/html/index.html
         state : absent
 
+    - name: Install LocalSettings.php
+      template:
+        src   : LocalSettings-{{ wikimedia_version }}.php.j2
+        dest  : /opt/mediawiki-{{ mediawiki_long_version }}/LocalSettings.php
+        owner : www-data
+        group : www-data
+        mode  : "0644"
+
     - name: Create link from /var/www/html/
       file:
-        path  : /var/www/html/
+        path  : /var/www/html
         state : link
         force : true
-        src   : "/opt/mediawiki-{{ mediawiki_long_version }}"
+        src   : /opt/mediawiki-{{ mediawiki_long_version }}
