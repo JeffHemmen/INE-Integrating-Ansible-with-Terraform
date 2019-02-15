@@ -53,9 +53,14 @@
         owner      : www-data
         group      : www-data
 
+    - name: Delete index.html left by default apache2 install
+      file:
+        path  : /var/www/html/index.html
+        state : absent
+
     - name: Create link from /var/www/html/
       file:
         path  : /var/www/html/
         state : link
         force : true
-        src   : "/opt/ {{ mediawiki_dir }}/mediawiki-{{ mediawiki_long_version }}"
+        src   : "/opt/mediawiki-{{ mediawiki_long_version }}"
