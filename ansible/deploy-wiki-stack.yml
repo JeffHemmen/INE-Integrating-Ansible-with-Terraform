@@ -29,8 +29,9 @@
         priv           : "{{ wiki_db_name }}.*:ALL"
       with_items: "{{ wiki_db_hosts }}"
 
-- name  : Deploy webserver
-  hosts : wiki-web
+- name   : Deploy webserver
+  hosts  : wiki-web
+  become : true
 
   tasks:
 
@@ -47,7 +48,7 @@
     - name: Download and extract the MediaWiki tarball
       unarchive:
         src        : "{{ mediawiki_tarball_url }}"
-        remote_src : yes
+        remote_src : true
         dest       : /opt
         owner      : www-data
         group      : www-data
@@ -56,4 +57,5 @@
       file:
         path  : /var/www/html/
         state : link
+        force : true
         src   : "/opt/ {{ mediawiki_dir }}/mediawiki-{{ mediawiki_long_version }}"
