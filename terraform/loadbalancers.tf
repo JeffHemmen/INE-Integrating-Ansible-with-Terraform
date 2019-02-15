@@ -1,5 +1,5 @@
 resource "aws_lb" "wiki-alb" {
-  name               = "test-alb"
+  name               = "wiki-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = ["${aws_security_group.wiki-alb-sg.id}"]
