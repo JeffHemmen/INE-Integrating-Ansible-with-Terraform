@@ -1,0 +1,11 @@
+---
+
+dependencies:
+  apt:
+    - apache2
+    - mysql-server
+    - php
+    - php-mysql
+    - libapache2-mod-php
+    - php-xml
+    - php-mbstring
