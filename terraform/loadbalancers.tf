@@ -30,3 +30,9 @@ resource "aws_lb_target_group_attachment" "wiki-alb-trg-attach" {
   target_id        = "${aws_instance.wiki-web-01.id}"
   port             = 80
 }
+
+resource "aws_ssm_parameter" "wiki-public-url" {
+  name  = "wiki-public-url"
+  type  = "String"
+  value = "${aws_lb.wiki-alb.dns-name}"
+}
