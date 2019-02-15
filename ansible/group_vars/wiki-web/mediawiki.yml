@@ -8,5 +8,5 @@ mediawiki_site_name       :   2w
 wiki_public_url           : http://{{ lookup('aws_ssm', 'wiki-public-url', region='us-east-1') }}
 mediawiki_admin_email     : wikiadmin@example.com
 
-mediawiki_secret_key      : "{{ lookup('password', '~/.wikimedia_secret_key  length=64 chars=ascii_letters,digits') }}"
-mediawiki_upgrade_key     : "{{ lookup('password', '~/.wikimedia_upgrade_key length=16 chars=ascii_letters,digits') }}"
+mediawiki_secret_key      : "{{ lookup('password', '~/.ansible/mediawiki_secret_key  length=64 chars=ascii_letters,digits') }}"
+mediawiki_upgrade_key     : "{{ lookup('password', '~/.ansible/mediawiki_upgrade_key length=16 chars=ascii_letters,digits') }}"

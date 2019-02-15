@@ -60,7 +60,7 @@
 
     - name: Install LocalSettings.php
       template:
-        src   : LocalSettings-{{ wikimedia_version }}.php.j2
+        src   : LocalSettings-{{ mediawiki_version }}.php.j2
         dest  : /opt/mediawiki-{{ mediawiki_long_version }}/LocalSettings.php
         owner : www-data
         group : www-data
