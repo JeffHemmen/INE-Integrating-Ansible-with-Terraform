@@ -15,7 +15,7 @@ The focus is on secrets management, especially passing the database credentials 
 
 
 
-Simply set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` and run:
+Simply set the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables and run:
 
  ```shell
  cd terraform/
