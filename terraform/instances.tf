@@ -72,7 +72,7 @@ resource "aws_instance" "wiki-web-01" {
   vpc_security_group_ids = ["${aws_security_group.wiki-web-sg.id}"]
 
   subnet_id = "${aws_subnet.wiki-web-subnet-az1.id}"
-  associate_public_ip_address = false
+  associate_public_ip_address = true
 
   user_data = "${data.template_file.user-data-ansible-target.rendered}"
 
