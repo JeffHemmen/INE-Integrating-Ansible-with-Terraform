@@ -1,0 +1,6 @@
+---
+
+wiki_db_hosts          : "{{ groups['wiki-db'] | map('extract', hostvars, 'ansible_host') | list }}"
+wiki_db_name           : wiki
+wiki_db_app_user       : wiki
+wiki_db_app_password   : "{{ lookup('password', '~/.wiki_db_app_password') }}"
