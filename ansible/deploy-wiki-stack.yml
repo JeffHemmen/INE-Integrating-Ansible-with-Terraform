@@ -1,0 +1,66 @@
+---
+
+- name       : Deploy Wiki database
+  hosts      : wiki-mgt
+  connection : local
+
+  tasks:
+
+    - name: Install pip packages
+      pip:
+        name: '{{ dependencies.pip }}'
+
+    - name: Create wiki db
+      mysql_db:
+        login_host     : "{{ item }}"
+        login_user     : "{{ wiki_db_admin_user }}"
+        login_password : "{{ wiki_db_admin_password }}"
+        name           : "{{ wiki_db_name }}"
+      with_items: "{{ wiki_db_hosts }}"
+
+    - name: Create wiki db user
+      mysql_user:
+        login_host     : "{{ item }}"
+        login_user     : "{{ wiki_db_admin_user }}"
+        login_password : "{{ wiki_db_admin_password }}"
+        name           : "{{ wiki_db_app_user }}"
+        password       : "{{ wiki_db_app_password }}"
+        host           : "10.0.10.0/255.255.255.0"
+        priv           : "{{ wiki_db_name }}.*:ALL"
+      with_items: "{{ wiki_db_hosts }}"
+
+- name   : Deploy webserver
+  hosts  : wiki-web
+  become : true
+
+  tasks:
+
+    - name: Install OS packages
+      apt:
+        name  : '{{ dependencies.apt }}'
+        state : latest
+
+    - name: Ensure /opt directory exists
+      file:
+        path  : /opt
+        state : directory
+
+    - name: Download and extract the MediaWiki tarball
+      unarchive:
+        src        : "{{ mediawiki_tarball_url }}"
+        remote_src : true
+        dest       : /opt
+        owner      : www-data
+        group      : www-data
+
+    - name: Delete index.html left by default apache2 install
+      file:
+        path  : /var/www/html/index.html
+        state : absent
+
+    - name: Create link from /var/www/html/
+      file:
+        path  : /var/www/html
+        state : link
+        force : true
+        src   : /opt/mediawiki-{{ mediawiki_long_version }}

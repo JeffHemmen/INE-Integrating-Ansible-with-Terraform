@@ -1,0 +1,4 @@
+---
+
+wiki_db_admin_user     : wikiadmin
+wiki_db_admin_password : "{{ lookup('aws_ssm', 'wiki-db-password', region='us-east-1' ) }}"
