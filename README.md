@@ -40,6 +40,4 @@ This project does not implement a remote state. All secrets will be stored in pl
 A few secrets are generated and stored on the wiki-mgt host only. These can be changed / regenerated on subsequent Ansible runs, and only need to be consistent throughout a given Ansible run.
 
 ### Other
-This repository is cloned onto the wiki-mgt host. Its URL is hard-coded (in `terraform/run_ansible.tf`), so beware if you fork this project.
-
 MediaWiki needs to be manually configured and a PHP file uploaded after install. This is not catered for, as this project is a POC only.
