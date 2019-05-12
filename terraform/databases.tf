@@ -1,5 +1,6 @@
 resource "random_string" "wiki-db-password" {
-  length = 16
+  length           = 16
+  override_special = "'!#$%&*()-_=+[]{}<>:?"
 }
 
 resource "aws_db_instance" "wiki-db" {
